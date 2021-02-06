@@ -1,0 +1,38 @@
+{
+  "name": "be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kodritma/be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kodritma/be/issues"
+  },
+  "homepage": "https://github.com/Kodritma/be#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "helmet": "^4.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.15",
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "uuid": "^8.3.2"
+  }
+}
