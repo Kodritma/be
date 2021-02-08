@@ -14,6 +14,7 @@ exports.up = function (knex) {
       table.string("name").unique();
       table.string("slug").unique().notNullable();
       table.string("image").defaultTo("default.jpg");
+      table.boolean("is_archived").defaultTo(false);
     })
     .createTable("Video", (table) => {
       table.uuid("ID").unique();
