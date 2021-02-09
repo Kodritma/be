@@ -70,6 +70,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   const { id } = req.params;
   const updatedPlaylist = req.body;
+  console.log({ id, updatedPlaylist });
 
   if (!updatedPlaylist.name) {
     return next({
@@ -82,7 +83,8 @@ router.put("/:id", async (req, res, next) => {
 
   try {
     const ifExists = await Playlist.findBySlug(updatedPlaylist.slug);
-    if (ifExists) {
+    console.log({ ifExists });
+    if (ifExists && ifExists.name !== updatedPlaylist.name) {
       return next({
         statusCode: 400,
         errorMessage: "This playlist name is in use",
