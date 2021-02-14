@@ -10,7 +10,11 @@ module.exports = {
 };
 
 function find(limit = 10, offset = 0) {
-  return db("Video").limit(limit).offset(offset);
+  return db("Video")
+    .leftJoin("Playlist", "Video.playlistID", "Playlist.ID")
+    .select("Video.*", "Playlist.name as playlist_name")
+    .limit(limit)
+    .offset(offset);
 }
 
 function findById(ID) {
@@ -21,9 +25,13 @@ function add(video) {
   video.ID = uuidv4();
 
   return db("Video")
-    .insert(video, "ID")
+    .insert(video, "Video.ID")
     .then(([ID]) => {
-      return db("Video").where({ ID }).first();
+      return db("Video")
+        .leftJoin("Playlist", "Video.playlistID", "Playlist.ID")
+        .select("Video.*", "Playlist.name as playlist_name")
+        .where("Video.ID", ID)
+        .first();
     });
 }
 
