@@ -30,6 +30,7 @@ router.get("/:id", (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   const playlist = req.body;
+  console.log({ playlist });
 
   if (!playlist.name) {
     return next({
@@ -69,6 +70,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   const { id } = req.params;
   const updatedPlaylist = req.body;
+  console.log({ id, updatedPlaylist });
 
   if (!updatedPlaylist.name) {
     return next({
@@ -81,7 +83,8 @@ router.put("/:id", async (req, res, next) => {
 
   try {
     const ifExists = await Playlist.findBySlug(updatedPlaylist.slug);
-    if (ifExists) {
+    console.log({ ifExists });
+    if (ifExists && ifExists.name !== updatedPlaylist.name) {
       return next({
         statusCode: 400,
         errorMessage: "This playlist name is in use",
@@ -101,6 +104,21 @@ router.put("/:id", async (req, res, next) => {
     .catch((_) => {
       next({ statusCode: 500, errorMessage: "Error updating playlist" });
     });
+});
+
+router.put("/archive/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const { bool } = req.body;
+
+  try {
+    const archiveChanged = await Playlist.archive(bool, id);
+    res.status(200).json(archiveChanged);
+  } catch {
+    next({
+      statusCode: 500,
+      errorMessage: "Error archiving/unarchiving playlist",
+    });
+  }
 });
 
 module.exports = router;

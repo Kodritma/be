@@ -7,6 +7,7 @@ module.exports = {
   findVideos,
   add,
   update,
+  archive,
 };
 
 function find(limit = 10, offset = 0) {
@@ -34,6 +35,16 @@ function add(playlist) {
 function update(playlist, ID) {
   return db("Playlist")
     .update(playlist)
+    .where({ ID })
+    .then((updated) => {
+      if (updated === 1) return db("Playlist").where({ ID }).first();
+      else throw new Error();
+    });
+}
+
+function archive(bool, ID) {
+  return db("Playlist")
+    .update({ is_archived: bool })
     .where({ ID })
     .then((updated) => {
       if (updated === 1) return db("Playlist").where({ ID }).first();

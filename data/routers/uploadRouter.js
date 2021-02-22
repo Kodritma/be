@@ -1,6 +1,9 @@
 const router = require("express").Router();
-const multer = require("multer");
 const fs = require("fs");
+const multer = require("multer");
+
+const auth = require("../../middlewares/auth");
+
 const slugify = require("../../utils/slugify");
 
 const makeFileName = (str) => {
@@ -16,19 +19,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single("file");
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res, next) => {
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err);
     } else if (err) {
       return res.status(500).json(err);
     }
-    console.log(req.file);
     return res.status(200).send(req.file.filename);
   });
 });
 
-router.delete("/:filename", (req, res, next) => {
+router.delete("/:filename", auth, (req, res, next) => {
   const { filename } = req.params;
   const path = "public/uploads/" + filename;
   try {

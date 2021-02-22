@@ -25,7 +25,7 @@ router.get("/:id", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
   const video = req.body;
-
+  console.log(video);
   if (
     !video.url ||
     !video.title ||
@@ -38,7 +38,7 @@ router.post("/", (req, res, next) => {
       errorMessage: "Please provide all the required fields",
     });
   }
-
+  video.playlist_order = parseInt(video.playlist_order);
   video.slug = slugify(video.title);
 
   Video.add(video)
@@ -46,6 +46,7 @@ router.post("/", (req, res, next) => {
       res.status(201).json(video);
     })
     .catch((_) => {
+      console.log(_);
       next({ statusCode: 500, errorMessage: "Error addding video" });
     });
 });

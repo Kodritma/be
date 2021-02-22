@@ -35,8 +35,9 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch {
-    req.user = {};
-    req.user.isLoggedIn = false;
-    next();
+    next({
+      statusCode: 401,
+      errorMessage: "User is not authenticated.",
+    });
   }
 };

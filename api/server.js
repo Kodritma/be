@@ -12,10 +12,7 @@ const googleAuthRouter = require("../data/routers/googleAuthRouter");
 const userRouter = require("../data/routers/userRouter");
 const uploadRouter = require("../data/routers/uploadRouter");
 
-const options = {
-  origin: process.env.FRONTEND,
-  credentials: true,
-};
+const options = { origin: process.env.FRONTEND, credentials: true };
 
 server.use(cors(options));
 server.use(helmet());
